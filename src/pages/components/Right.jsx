@@ -1,23 +1,31 @@
 export const Right = ({ temp }) => {
   return (
-    <div class="justify-items-center ... mt-60 bg-white/40 backdrop-blur-md   w-130 h-190 ">
-      <div class=" ">
-        <div>
-          <p class="text-gray-600 dark:text-gray-400">September 10, 2021</p>
-          <div class=" text-[48px] pb-10  ">Ulaanbatar</div>
+    <div className="w-[300px] h-[500px] bg-white rounded-3xl p-6 text-black flex flex-col justify-between items-center shadow-xl">
+      <div className="w-full">
+        <p className="text-gray-400 text-sm">May 15, 2025</p>
+        <div className="flex items-center gap-2 mb-4">
+          <h2 className="text-2xl font-semibold">Ulaanbaatar</h2>
+          <img src="localization_icon.svg" className="w-4 h-4" alt="location" />
         </div>
-        <div>
-          <img
-            class="ml-90 mt-[-70px] mt-[-80]"
-            src="localization_icon.svg"
-          ></img>
-        </div>
-        <img
-          class="w-[262px] "
-          src="3c6bbabb0657324bf17d1bd5169b60a7fbcb80b1.png"
-        ></img>
-        <p class="text-[90px]">{temp}</p>
-        <p>Clear</p>
+      </div>
+
+      <img
+        src="3c6bbabb0657324bf17d1bd5169b60a7fbcb80b1.png"
+        className="w-[150px] my-6"
+        alt=""
+      />
+
+      <div className="text-center">
+        <p className="text-[64px] font-bold">
+          {temp}°C 
+        </p>
+        <p className="text-purple-400 text-lg">Moderate rain</p>
+      </div>
+
+      <div className="flex gap-6 text-gray-500 mt-4">
+        <img src="/icon_home.svg" className="w-6 h-6" />
+        <img src="/icon_heart.svg" className="w-6 h-6" />
+        <img src="/icon_user.svg" className="w-6 h-6" />
       </div>
     </div>
   );
