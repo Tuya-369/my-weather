@@ -1,54 +1,54 @@
 import { Right } from "./components/right";
+import { Search } from "lucide-react";
 import { Left } from "./components/left";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [weather, setWeather] = useState({});
-
-  const cityUrl = `https://api.api-ninjas.com/v1/city?name=Ulaanbaatar`;
-
-  const getCity = async () => {
-    try {
-      const response = await fetch(cityUrl, {
-        headers: {
-          "X-Api-Key": process.env.NEXT_PUBLIC_CITY_API_KEY,
-        },
-      });
-      const data = await response.json(); 
-      return data;
-    } catch (error) {
-      console.log("getCity error:", error);
-    }
-  };
-
+  const [searchCity, setSearchCity] = useState("Ulaanbaatar");
   const getWeather = async () => {
     try {
-      const cityLocation = await getCity();
-      if (!cityLocation || !cityLocation[0]) {
-        console.error();
-        return;
-      }
+      // const cityLocation = await getCity();
 
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${cityLocation[0].latitude}&lon=${cityLocation[0].longitude}&appid=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&units=metric`
+        `https://api.weatherapi.com/v1/forecast.json?key=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&q=${searchCity}`
       );
+
       const data = await response.json();
+
       setWeather(data);
     } catch (error) {
-      console.log("getWeather error:", error);
+      console.log(error);
     }
   };
-
+  useEffect(() => {
+    getWeather();
+  }, []);
   console.log(weather);
 
   return (
-            <div className="flex justify-center items-center ">
-      <div className="w-[800px] h-[1200px] bg-slate-100">
+    <div className=" flex justify-center items-center ">
+      <div>
+        <input
+          type="search"
+          placeholder="Search"
+          value={searchCity}
+          onChange={(event) => {
+            const value = event.target.value;
+            setSearchCity(value);
+          }}
+          className=" border-0 h-18 w-100 t-40 rounded-full bg-gray-50"
+        ></input>
         <button onClick={getWeather}>click me</button>
-        <Right  temp={weather?.main?.temp_max} />
       </div>
-      <div className="w-[800px] h-[1200px] bg-slate-900">
-        <Left temp={weather?.main?.temp_max} />
+      <div className=" pt-50 pl-50 w-[800px] h-[1200px] bg-slate-100">
+        <Right temp={weather?.current?.temp_c} city={weather} />
+      </div>
+      <div className=" pt-50 pl-50 w-[800px] h-[1200px] bg-slate-900">
+        <Left
+          temp={weather?.forecast?.farecastday?.[0]?.day?.mintemp_c}
+          city={weather}
+        />
       </div>
     </div>
   );
